@@ -7,6 +7,9 @@ import { Game } from '../game/game.model';
 // Pour aller plus loin: https://angular.dev/essentials/components
 @Component({
   selector: 'app-root',
+  // On importe explicitement les composants utilises dans le template.
+  // Cela rend les dependances visibles et limite les imports implicites.
+  // Pour aller plus loin: https://angular.dev/guide/components/importing
   imports: [GameCard],
   templateUrl: './app.template.html',
 })
