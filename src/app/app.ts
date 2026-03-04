@@ -16,7 +16,11 @@ type Game = {
 
 @Component({
   selector: 'app-root',
+  // OnPush: strategie de detection conseillee pour des updates plus predictibles.
+  // https://angular.dev/best-practices/skipping-subtrees
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // NgOptimizedImage: optimisation de chargement des images via ngSrc dans le template.
+  // https://angular.dev/guide/image-optimization
   imports: [NgOptimizedImage],
   templateUrl: './app.template.html',
   styleUrls: ['./app.css'],
@@ -24,6 +28,7 @@ type Game = {
 export class App {
   protected readonly nomApplication = 'WishFlix';
   // Signal principal: source de verite locale de la liste de jeux.
+  // https://angular.dev/guide/signals
   protected readonly games = signal<Game[]>([
     {
       id: 1,
@@ -99,6 +104,8 @@ export class App {
     },
   ]);
 
+  // computed(): etat derive, recalcule automatiquement selon les dependances lues.
+  // https://angular.dev/guide/signals
   protected readonly visibleGames = computed(() => {
     return this.games().filter((game) => game.available);
   });
