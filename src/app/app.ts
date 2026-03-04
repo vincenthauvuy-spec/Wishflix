@@ -1,32 +1,14 @@
-import { NgOptimizedImage } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
-
-// Type alias: contrat de donnees pour toutes les cartes de jeux dans l'app.
-// Un modele type evite les erreurs de proprietes manquantes et rend le refactor plus sur.
-// Pour aller plus loin: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases
-type Game = {
-  id: number;
-  title: string;
-  genre: string;
-  category: string;
-  year: number;
-  platform: string;
-  rating: number;
-  synopsis: string;
-  available: boolean;
-  image: string;
-};
+import { GameCard } from '../game/game-card.component';
+import { Game } from '../game/game.model';
 
 // @Component relie la classe TypeScript au template HTML/CSS de l'interface.
 // C'est le point d'entree pour declarer la vue et les imports utilises par ce composant.
 // Pour aller plus loin: https://angular.dev/essentials/components
 @Component({
   selector: 'app-root',
-  // NgOptimizedImage: optimisation de chargement des images via ngSrc dans le template.
-  // https://angular.dev/guide/image-optimization
-  imports: [NgOptimizedImage],
+  imports: [GameCard],
   templateUrl: './app.template.html',
-  styleUrls: ['./app.css'],
 })
 export class App {
   protected readonly nomApplication = 'WishFlix';

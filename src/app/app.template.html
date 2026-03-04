@@ -91,61 +91,7 @@
         <!-- Control flow @for: boucle template avec track pour optimiser le rendu -->
         <!-- https://angular.dev/guide/templates/control-flow -->
         @for (game of visibleGames(); track game.id) {
-          <article class="card movie-card game-card">
-            <figure class="game-card__cover">
-              <!-- ngSrc active NgOptimizedImage (chargement/optimisation image) -->
-              <!-- https://angular.dev/guide/image-optimization -->
-              <img
-                [ngSrc]="game.image"
-                [alt]="game.title"
-                width="300"
-                height="450"
-                loading="lazy"
-              />
-            </figure>
-            <div class="card-body game-card__body">
-              <div class="game-card__badges">
-                <span class="badge badge-secondary">{{ game.category }}</span>
-                <span class="badge badge-ghost">{{ game.genre }}</span>
-              </div>
-
-              <h3 class="card-title game-card__title">{{ game.title }}</h3>
-              <p class="game-card__meta">{{ game.year }} - {{ game.platform }}</p>
-              <div class="game-card__rating">
-                <span class="game-card__rating-value">{{ game.rating }}</span>
-                <span class="game-card__rating-max">/5</span>
-              </div>
-              <p class="game-card__synopsis">
-                {{ game.synopsis }}
-              </p>
-
-              <div class="card-actions game-card__actions">
-                <!--
-                  Class binding - Il y a plusieurs façons d'utiliser le class binding
-                  https://angular.dev/api/common/NgClass#usage-notes
-                -->
-                <span
-                  [class]="{
-                    'badge-success': game.available,
-                    'badge-error': !game.available,
-                  }"
-                  class="badge"
-                >
-                  <!-- Control flow @if/@else: affichage conditionnel dans le template -->
-                  <!-- https://angular.dev/guide/templates/control-flow -->
-                  @if (game.available) {
-                    Disponible
-                  } @else {
-                    Indisponible :-(
-                  }
-                </span>
-
-                <button type="button" class="btn btn-sm btn-outline" aria-pressed="false">
-                  Ajouter a la wishlist
-                </button>
-              </div>
-            </div>
-          </article>
+          <game-card [game]="game"></game-card>
         }
       </div>
     </section>
