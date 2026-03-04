@@ -16,9 +16,6 @@ type Game = {
 
 @Component({
   selector: 'app-root',
-  // OnPush: strategie de detection conseillee pour des updates plus predictibles.
-  // https://angular.dev/best-practices/skipping-subtrees
-  changeDetection: ChangeDetectionStrategy.OnPush,
   // NgOptimizedImage: optimisation de chargement des images via ngSrc dans le template.
   // https://angular.dev/guide/image-optimization
   imports: [NgOptimizedImage],
