@@ -113,4 +113,8 @@ export class App {
     // Update immutable sur notre signal games
     this.onlyAvailable.update((available) => !available);
   }
+
+  protected filterAvailibilityLabel = computed((): string => {
+    return this.onlyAvailable() ? 'Voir tous les jeux' : 'Voir les jeux disponibles';
+  });
 }
