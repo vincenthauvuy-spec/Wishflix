@@ -24,6 +24,7 @@ type Game = {
 })
 export class App {
   protected readonly nomApplication = 'WishFlix';
+  protected readonly onlyAvailable = signal<boolean>(false);
   // Signal principal: source de verite locale de la liste de jeux.
   // https://angular.dev/guide/signals
   protected readonly games = signal<Game[]>([
@@ -104,6 +105,12 @@ export class App {
   // computed(): etat derive, recalcule automatiquement selon les dependances lues.
   // https://angular.dev/guide/signals
   protected readonly visibleGames = computed(() => {
+    if (!this.onlyAvailable()) return this.games();
     return this.games().filter((game) => game.available);
   });
+
+  protected filterByAvailibility(): void {
+    // Update immutable sur notre signal games
+    this.onlyAvailable.update((available) => !available);
+  }
 }

@@ -66,8 +66,12 @@
         role="group"
         aria-label="Statistiques catalogue"
       >
+        <button type="button" class="btn btn-primary" (click)="filterByAvailibility()">
+          Voir les jeux disponible
+        </button>
+
         <div class="stat">
-          <div class="stat-title">Jeux disponibles</div>
+          <div class="stat-title">Total de jeux</div>
           <!-- Signal/computed: lecture reactive dans le template -->
           <!-- https://angular.dev/guide/signals -->
           <div class="stat-value text-primary">{{ visibleGames().length }}</div>
@@ -82,7 +86,7 @@
       <div class="wishflix-catalogue__grid">
         <!-- Control flow @for: boucle template avec track pour optimiser le rendu -->
         <!-- https://angular.dev/guide/templates/control-flow -->
-        @for (game of games(); track game.id) {
+        @for (game of visibleGames(); track game.id) {
           <article class="card movie-card game-card">
             <figure class="game-card__cover">
               <!-- ngSrc active NgOptimizedImage (chargement/optimisation image) -->
