@@ -1,6 +1,9 @@
 import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 
+// Type alias: contrat de donnees pour toutes les cartes de jeux dans l'app.
+// Un modele type evite les erreurs de proprietes manquantes et rend le refactor plus sur.
+// Pour aller plus loin: https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases
 type Game = {
   id: number;
   title: string;
@@ -14,6 +17,9 @@ type Game = {
   image: string;
 };
 
+// @Component relie la classe TypeScript au template HTML/CSS de l'interface.
+// C'est le point d'entree pour declarer la vue et les imports utilises par ce composant.
+// Pour aller plus loin: https://angular.dev/essentials/components
 @Component({
   selector: 'app-root',
   // NgOptimizedImage: optimisation de chargement des images via ngSrc dans le template.
@@ -24,6 +30,8 @@ type Game = {
 })
 export class App {
   protected readonly nomApplication = 'WishFlix';
+  // Signal booleen: etat UI local du filtre "disponibles uniquement".
+  // https://angular.dev/guide/signals
   protected readonly onlyAvailable = signal<boolean>(false);
   // Signal principal: source de verite locale de la liste de jeux.
   // https://angular.dev/guide/signals
@@ -110,10 +118,13 @@ export class App {
   });
 
   protected filterByAvailibility(): void {
-    // Update immutable sur notre signal games
+    // update() modifie le signal sans mutation directe et declenche le recalcul des computed.
+    // https://angular.dev/guide/signals
     this.onlyAvailable.update((available) => !available);
   }
 
+  // computed de presentation: derive le texte du bouton a partir de onlyAvailable().
+  // https://angular.dev/guide/signals
   protected filterAvailibilityLabel = computed((): string => {
     return this.onlyAvailable() ? 'Voir tous les jeux' : 'Voir les jeux disponibles';
   });

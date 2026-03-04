@@ -66,7 +66,11 @@
         role="group"
         aria-label="Statistiques catalogue"
       >
+        <!-- Event binding: l'action utilisateur declenche une methode du composant -->
+        <!-- https://angular.dev/guide/templates/event-listeners -->
         <button type="button" class="btn btn-primary" (click)="filterByAvailibility()">
+          <!-- computed() lu dans le template: le texte se met a jour automatiquement -->
+          <!-- https://angular.dev/guide/signals -->
           {{ filterAvailibilityLabel() }}
         </button>
 
