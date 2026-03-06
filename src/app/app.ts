@@ -3,6 +3,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { GameCard } from '../game/game-card.component';
 import { Game } from '../game/game.model';
 import { GameSection } from '../layouts/game-section/game-section';
+import { FlixButton } from '../ui/button/flix-button';
 
 // @Component relie la classe TypeScript au template HTML/CSS de l'interface.
 // C'est le point d'entree pour declarer la vue et les imports utilises par ce composant.
@@ -12,7 +13,7 @@ import { GameSection } from '../layouts/game-section/game-section';
   // On importe explicitement les composants utilises dans le template.
   // Cela rend les dependances visibles et limite les imports implicites.
   // Pour aller plus loin: https://angular.dev/guide/components/importing
-  imports: [NgOptimizedImage, GameCard, GameSection],
+  imports: [NgOptimizedImage, GameCard, GameSection, FlixButton],
   templateUrl: './app.template.html',
 })
 export class App {
