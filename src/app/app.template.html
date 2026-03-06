@@ -56,11 +56,14 @@
     </section>
 
     <game-section title="Catalogue de Jeux" subtitle="Decouvre notre selection de jeux video">
-      <!-- <button type="button" class="btn btn-primary" (click)="filterByAvailibility()">
+      <button filter type="button" class="btn btn-primary" (click)="filterByAvailibility()">
         {{ filterAvailibilityLabel() }}
-      </button> -->
+      </button>
 
-      <!-- {{ visibleGames().length }} -->
+      <!-- <ng-container stat-game-count-label> Nombre total de jeux </ng-container> -->
+      <ng-container stat-game-count>
+        {{ visibleGames().length }}
+      </ng-container>
 
       <!-- Control flow @for: boucle template avec track pour optimiser le rendu -->
       <!-- https://angular.dev/guide/templates/control-flow -->

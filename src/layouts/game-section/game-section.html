@@ -11,9 +11,15 @@
     role="group"
     aria-label="Statistiques catalogue"
   >
+    <ng-content select="[filter]" />
+
     <div class="stat">
-      <div class="stat-title">Total de jeux</div>
-      <div class="stat-value text-primary"></div>
+      <div class="stat-title">
+        <ng-content select="[stat-game-count-label]">Total de jeux</ng-content>
+      </div>
+      <div class="stat-value text-primary">
+        <ng-content select="[stat-game-count]" />
+      </div>
     </div>
 
     <div class="stat">
