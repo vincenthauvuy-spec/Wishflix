@@ -20,6 +20,7 @@ export class FlixButton {
     // Pour le forcer à générer le CSS des boutons
     // @todo Voir sur DaisyUI/Tailwind comment forcer
     // la génération de certaines classes même si inutilisé
+    // https://daisyui.com/docs/faq/#class-names-are-not-working
 
     // btn-primary
     // btn-outline
