@@ -1,0 +1,28 @@
+<section aria-labelledby="titre-catalogue" class="wishflix-catalogue">
+  <div class="wishflix-catalogue__header">
+    <h2 id="titre-catalogue" class="wishflix-catalogue__title">{{ title() }}</h2>
+    @if (subtitle()) {
+      <p class="wishflix-catalogue__subtitle">{{ subtitle() }}</p>
+    }
+  </div>
+
+  <div
+    class="stats shadow wishflix-catalogue__stats"
+    role="group"
+    aria-label="Statistiques catalogue"
+  >
+    <div class="stat">
+      <div class="stat-title">Total de jeux</div>
+      <div class="stat-value text-primary"></div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Ma Wishlist</div>
+      <div class="stat-value text-accent">0</div>
+    </div>
+  </div>
+
+  <div class="wishflix-catalogue__grid">
+    <ng-content></ng-content>
+  </div>
+</section>

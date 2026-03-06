@@ -55,48 +55,21 @@
       </div>
     </section>
 
-    <section aria-labelledby="titre-catalogue" class="wishflix-catalogue">
-      <div class="wishflix-catalogue__header">
-        <h2 id="titre-catalogue" class="wishflix-catalogue__title">Catalogue de jeux</h2>
-        <p class="wishflix-catalogue__subtitle">Decouvre notre selection de jeux video</p>
-      </div>
+    <game-section title="Catalogue de Jeux" subtitle="Decouvre notre selection de jeux video">
+      <!-- <button type="button" class="btn btn-primary" (click)="filterByAvailibility()">
+        {{ filterAvailibilityLabel() }}
+      </button> -->
 
-      <div
-        class="stats shadow wishflix-catalogue__stats"
-        role="group"
-        aria-label="Statistiques catalogue"
-      >
-        <!-- Event binding: l'action utilisateur declenche une methode du composant -->
-        <!-- https://angular.dev/guide/templates/event-listeners -->
-        <button type="button" class="btn btn-primary" (click)="filterByAvailibility()">
-          <!-- computed() lu dans le template: le texte se met a jour automatiquement -->
-          <!-- https://angular.dev/guide/signals -->
-          {{ filterAvailibilityLabel() }}
-        </button>
+      <!-- {{ visibleGames().length }} -->
 
-        <div class="stat">
-          <div class="stat-title">Total de jeux</div>
-          <!-- Signal/computed: lecture reactive dans le template -->
-          <!-- https://angular.dev/guide/signals -->
-          <div class="stat-value text-primary">{{ visibleGames().length }}</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-title">Ma Wishlist</div>
-          <div class="stat-value text-accent">0</div>
-        </div>
-      </div>
-
-      <div class="wishflix-catalogue__grid">
-        <!-- Control flow @for: boucle template avec track pour optimiser le rendu -->
-        <!-- https://angular.dev/guide/templates/control-flow -->
-        @for (game of visibleGames(); track game.id) {
-          <!-- Property binding: on passe chaque objet Game au composant enfant via son input `game`. -->
-          <!-- Pour aller plus loin: https://angular.dev/guide/templates/binding -->
-          <game-card [game]="game"></game-card>
-        }
-      </div>
-    </section>
+      <!-- Control flow @for: boucle template avec track pour optimiser le rendu -->
+      <!-- https://angular.dev/guide/templates/control-flow -->
+      @for (game of visibleGames(); track game.id) {
+        <!-- Property binding: on passe chaque objet Game au composant enfant via son input `game`. -->
+        <!-- Pour aller plus loin: https://angular.dev/guide/templates/binding -->
+        <game-card [game]="game"></game-card>
+      }
+    </game-section>
   </main>
 
   <footer class="wishflix-footer" aria-label="Pied de page">
