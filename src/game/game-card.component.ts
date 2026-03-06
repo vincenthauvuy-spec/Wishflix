@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Game } from './game.model';
 import { FlixButton } from '../ui/button/flix-button';
@@ -18,4 +18,11 @@ export class GameCard {
   // Ce contrat rend les erreurs de binding visibles a la compilation.
   // Pour aller plus loin: https://angular.dev/guide/components/inputs
   game = input.required<Game>();
+  favorite = output<number>();
+  isFavorite = input<boolean>(false);
+
+  get wishlistLabel(): string {
+    const verb = this.isFavorite() ? 'Retirer de' : 'Ajouter à';
+    return `${verb} la wishlist`;
+  }
 }

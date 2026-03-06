@@ -98,6 +98,8 @@ export class App {
     },
   ]);
 
+  protected favoriteGameIds = signal<number[]>([]);
+
   // computed(): etat derive, recalcule automatiquement selon les dependances lues.
   // https://angular.dev/guide/signals
   protected readonly visibleGames = computed(() => {
@@ -109,6 +111,18 @@ export class App {
     // update() modifie le signal sans mutation directe et declenche le recalcul des computed.
     // https://angular.dev/guide/signals
     this.onlyAvailable.update((available) => !available);
+  }
+
+  protected toggleFavorite(gameId: number): void {
+    this.favoriteGameIds.update((gameIds) => {
+      const isGameAlreadyFavorite = gameIds.includes(gameId);
+      if (!isGameAlreadyFavorite) return [...gameIds, gameId];
+      return gameIds.filter((oldGameId) => oldGameId !== gameId);
+    });
+  }
+
+  protected isFavorite(gameId: number): boolean {
+    return this.favoriteGameIds().includes(gameId);
   }
 
   // computed de presentation: derive le texte du bouton a partir de onlyAvailable().

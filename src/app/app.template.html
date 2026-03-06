@@ -64,12 +64,20 @@
         {{ visibleGames().length }}
       </ng-container>
 
+      <ng-container stat-wishlist-count>
+        {{ favoriteGameIds().length }}
+      </ng-container>
+
       <!-- Control flow @for: boucle template avec track pour optimiser le rendu -->
       <!-- https://angular.dev/guide/templates/control-flow -->
       @for (game of visibleGames(); track game.id) {
         <!-- Property binding: on passe chaque objet Game au composant enfant via son input `game`. -->
         <!-- Pour aller plus loin: https://angular.dev/guide/templates/binding -->
-        <game-card [game]="game"></game-card>
+        <game-card
+          [game]="game"
+          [isFavorite]="isFavorite(game.id)"
+          (favorite)="toggleFavorite($event)"
+        ></game-card>
       }
     </game-section>
   </main>
