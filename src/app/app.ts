@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { GameCard } from '../game/game-card.component';
 import { Game } from '../game/game.model';
+import { NgOptimizedImage } from '@angular/common';
 
 // @Component relie la classe TypeScript au template HTML/CSS de l'interface.
 // C'est le point d'entree pour declarer la vue et les imports utilises par ce composant.
@@ -10,7 +11,7 @@ import { Game } from '../game/game.model';
   // On importe explicitement les composants utilises dans le template.
   // Cela rend les dependances visibles et limite les imports implicites.
   // Pour aller plus loin: https://angular.dev/guide/components/importing
-  imports: [GameCard],
+  imports: [NgOptimizedImage, GameCard],
   templateUrl: './app.template.html',
 })
 export class App {
