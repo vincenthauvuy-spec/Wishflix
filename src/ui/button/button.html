@@ -1,3 +1,11 @@
+<!-- Property binding: applique dynamiquement les classes calculees dans FlixButton.classes. -->
+<!-- Angular relie la valeur TS au DOM sans manipulations manuelles de classList. -->
+<!-- Dans WishFlix, cette approche unifie le style des boutons dans tous les ecrans. -->
+<!-- Pour aller plus loin: https://angular.dev/guide/templates/binding -->
 <button class="btn" [class]="classes">
+  <!-- ng-content projette le contenu fourni par le parent dans ce composant atomique. -->
+  <!-- Le bouton reste reutilisable car il ne connait pas a l'avance le texte ou l'icone. -->
+  <!-- Dans WishFlix, on reutilise le meme composant pour hero, filtre et actions wishlist. -->
+  <!-- Pour aller plus loin: https://angular.dev/guide/components/content-projection -->
   <ng-content />
 </button>

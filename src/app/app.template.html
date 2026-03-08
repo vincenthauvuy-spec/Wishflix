@@ -1,15 +1,15 @@
 <div class="wishflix-shell">
   <header class="navbar wishflix-shell__navbar" aria-label="Navigation principale">
     <div class="navbar-start">
-      <!-- Interpolation: affichage d'une valeur TypeScript dans le template -->
-      <!-- https://angular.dev/guide/templates/binding -->
+      <!-- Interpolation: affiche une valeur TypeScript directement dans le template. -->
+      <!-- Angular synchronise automatiquement cette valeur quand l'etat du composant evolue. -->
+      <!-- Dans WishFlix, le nom de marque reste coherent sans mise a jour DOM imperative. -->
+      <!-- Pour aller plus loin: https://angular.dev/guide/templates/binding -->
       <p class="wishflix-shell__brand">{{ nomApplication }}</p>
       <span class="wishflix-shell__tagline">Gaming</span>
     </div>
 
-    <div class="navbar-end">
-      <!-- Navigation utilisateur -->
-    </div>
+    <div class="navbar-end"></div>
   </header>
 
   <main class="wishflix-main" id="contenu-principal">
@@ -54,25 +54,48 @@
       </div>
     </section>
 
+    <!-- Input binding: le parent configure GameSection via son API title/subtitle. -->
+    <!-- Le composant enfant reste reutilisable parce que sa structure est separee de ses donnees. -->
+    <!-- Dans WishFlix, on peut decliner plusieurs rangees de catalogue avec le meme layout. -->
+    <!-- Pour aller plus loin: https://angular.dev/guide/components/inputs -->
     <game-section title="Catalogue de Jeux" subtitle="Decouvre notre selection de jeux video">
+      <!-- Content projection: ce bouton est injecte dans le slot [filter] de GameSection. -->
+      <!-- Le layout decide de l'emplacement, le parent decide du composant projete. -->
+      <!-- Dans WishFlix, cela permet de faire evoluer le filtre sans toucher au layout global. -->
+      <!-- Pour aller plus loin: https://angular.dev/guide/components/content-projection -->
       <flix-button filter type="primary" (click)="filterByAvailibility()">
         {{ filterAvailibilityLabel() }}
       </flix-button>
 
-      <!-- <ng-container stat-game-count-label> Nombre total de jeux </ng-container> -->
+      <!-- Slot nomme [stat-game-count]: projette la valeur du compteur de jeux visibles. -->
+      <!-- Le calcul reste dans App, ce qui garde la logique metier hors du composant de layout. -->
+      <!-- Dans WishFlix, le nombre se met a jour des qu'un filtre est applique. -->
+      <!-- Pour aller plus loin: https://angular.dev/guide/components/content-projection -->
       <ng-container stat-game-count>
         {{ visibleGames().length }}
       </ng-container>
 
+      <!-- Slot nomme [stat-wishlist-count]: projette le total de jeux favoris. -->
+      <!-- Cette separation facilite la maintenance: layout stable, donnees pilotables par App. -->
+      <!-- Dans WishFlix, l'indicateur wishlist reste synchronise avec les clics utilisateur. -->
+      <!-- Pour aller plus loin: https://angular.dev/guide/components/content-projection -->
       <ng-container stat-wishlist-count>
         {{ favoriteGameIds().length }}
       </ng-container>
 
-      <!-- Control flow @for: boucle template avec track pour optimiser le rendu -->
-      <!-- https://angular.dev/guide/templates/control-flow -->
+      <!-- Control flow @for: repete la carte pour chaque element de visibleGames(). -->
+      <!-- Avec track game.id, Angular reutilise les noeuds DOM existants au lieu de tout recreer. -->
+      <!-- Dans WishFlix, la grille reste fluide pendant les filtres et toggles de favoris. -->
+      <!-- Pour aller plus loin: https://angular.dev/guide/templates/control-flow -->
       @for (game of visibleGames(); track game.id) {
-        <!-- Property binding: on passe chaque objet Game au composant enfant via son input `game`. -->
+        <!-- Property binding: transmet chaque objet Game a l'input `game` de GameCard. -->
+        <!-- Ce flux descendant rend les donnees predictibles et faciles a debugger. -->
+        <!-- Dans WishFlix, chaque carte reflète exactement la source de verite du parent. -->
         <!-- Pour aller plus loin: https://angular.dev/guide/templates/binding -->
+        <!-- Output binding: l'enfant emet l'id du jeu, puis App met a jour l'etat global. -->
+        <!-- On garde ainsi une architecture claire: intentions en sortie, etat centralise en entree. -->
+        <!-- Dans WishFlix, la wishlist reste coherente meme avec plusieurs interactions rapides. -->
+        <!-- Pour aller plus loin: https://angular.dev/guide/components/outputs -->
         <game-card
           [game]="game"
           [isFavorite]="isFavorite(game.id)"

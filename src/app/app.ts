@@ -5,24 +5,30 @@ import { Game } from '../game/game.model';
 import { GameSection } from '../layouts/game-section/game-section';
 import { FlixButton } from '../ui/button/flix-button';
 
-// @Component relie la classe TypeScript au template HTML/CSS de l'interface.
-// C'est le point d'entree pour declarer la vue et les imports utilises par ce composant.
+// @Component relie la classe TypeScript a la vue HTML associee.
+// Angular instancie ce composant racine pour piloter l'etat et le rendu de l'ecran principal.
+// Dans WishFlix, App orchestre le hero, le filtre et la grille de jeux dans un seul point d'entree.
 // Pour aller plus loin: https://angular.dev/essentials/components
 @Component({
   selector: 'app-root',
-  // On importe explicitement les composants utilises dans le template.
-  // Cela rend les dependances visibles et limite les imports implicites.
+  // En standalone, imports declare explicitement les composants utilises par le template.
+  // Cette liste rend les dependances visibles et evite les imports magiques de module global.
+  // Dans WishFlix, on comprend vite quelles briques composent la home (GameCard, GameSection, FlixButton).
   // Pour aller plus loin: https://angular.dev/guide/components/importing
   imports: [NgOptimizedImage, GameCard, GameSection, FlixButton],
   templateUrl: './app.template.html',
 })
 export class App {
   protected readonly nomApplication = 'WishFlix';
-  // Signal booleen: etat UI local du filtre "disponibles uniquement".
-  // https://angular.dev/guide/signals
+  // signal<boolean>: stocke l'etat local du filtre "disponibles uniquement".
+  // Quand sa valeur change, Angular notifie automatiquement les lectures reactives du template.
+  // Dans WishFlix, ce booleen permet d'alterner instantanement entre tout le catalogue et les jeux disponibles.
+  // Pour aller plus loin: https://angular.dev/guide/signals
   protected readonly onlyAvailable = signal<boolean>(false);
-  // Signal principal: source de verite locale de la liste de jeux.
-  // https://angular.dev/guide/signals
+  // signal<Game[]>: source de verite locale du catalogue affiche.
+  // Ce modele centralise les donnees et evite de dupliquer la meme liste dans plusieurs variables.
+  // Dans WishFlix, on garde une base unique pour le filtrage, les stats et la wishlist.
+  // Pour aller plus loin: https://angular.dev/guide/signals
   protected readonly games = signal<Game[]>([
     {
       id: 1,
@@ -98,21 +104,33 @@ export class App {
     },
   ]);
 
+  // signal<number[]>: stocke uniquement les ids favoris, pas des objets Game complets.
+  // Ce choix reduit la duplication memoire et simplifie les operations d'ajout/suppression.
+  // Dans WishFlix, la wishlist reste synchronisee avec le catalogue sans copie de donnees.
+  // Pour aller plus loin: https://angular.dev/guide/signals
   protected favoriteGameIds = signal<number[]>([]);
 
-  // computed(): etat derive, recalcule automatiquement selon les dependances lues.
-  // https://angular.dev/guide/signals
+  // computed(): derive la liste visible depuis games() et onlyAvailable().
+  // Angular met en cache le resultat et ne recalcule que si une dependance reactive change.
+  // Dans WishFlix, ce pattern garde le filtre lisible et performant meme quand la grille grandit.
+  // Pour aller plus loin: https://angular.dev/guide/signals
   protected readonly visibleGames = computed(() => {
     if (!this.onlyAvailable()) return this.games();
     return this.games().filter((game) => game.available);
   });
 
   protected filterByAvailibility(): void {
-    // update() modifie le signal sans mutation directe et declenche le recalcul des computed.
-    // https://angular.dev/guide/signals
+    // update() produit une nouvelle valeur a partir de l'ancienne, sans mutation manuelle.
+    // Cette ecriture immutable declenche proprement le recalcul des computed dependants.
+    // Dans WishFlix, un clic sur le bouton suffit pour rafraichir toutes les cartes affichees.
+    // Pour aller plus loin: https://angular.dev/guide/signals
     this.onlyAvailable.update((available) => !available);
   }
 
+  // update() sur un tableau permet d'ajouter ou retirer un favori de facon pure et previsible.
+  // La source de verite reste dans App, ce qui facilite les tests et les evolutions futures.
+  // Dans WishFlix, chaque carte emet une intention et le parent maintient l'etat global coherent.
+  // Pour aller plus loin: https://angular.dev/guide/signals
   protected toggleFavorite(gameId: number): void {
     this.favoriteGameIds.update((gameIds) => {
       const isGameAlreadyFavorite = gameIds.includes(gameId);
@@ -121,12 +139,18 @@ export class App {
     });
   }
 
+  // Methode de lecture: traduit l'etat global favoriteGameIds en booleen pour la carte courante.
+  // Garder ce calcul dans la classe evite des expressions longues et peu lisibles dans le template.
+  // Dans WishFlix, l'etat visuel du bouton wishlist reste aligne avec la source de verite.
+  // Pour aller plus loin: https://angular.dev/guide/templates/expression-syntax
   protected isFavorite(gameId: number): boolean {
     return this.favoriteGameIds().includes(gameId);
   }
 
-  // computed de presentation: derive le texte du bouton a partir de onlyAvailable().
-  // https://angular.dev/guide/signals
+  // computed de presentation: derive le libelle du bouton depuis onlyAvailable().
+  // Le template reste simple car il lit une valeur prete a afficher, sans logique conditionnelle inline.
+  // Dans WishFlix, le CTA reflete toujours l'action suivante attendue par l'utilisateur.
+  // Pour aller plus loin: https://angular.dev/guide/signals
   protected filterAvailibilityLabel = computed((): string => {
     return this.onlyAvailable() ? 'Voir tous les jeux' : 'Voir les jeux disponibles';
   });

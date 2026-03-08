@@ -1,7 +1,9 @@
 <article class="card movie-card game-card">
   <figure class="game-card__cover">
-    <!-- ngSrc active NgOptimizedImage (chargement/optimisation image) -->
-    <!-- https://angular.dev/guide/image-optimization -->
+    <!-- ngSrc active NgOptimizedImage pour optimiser le chargement des affiches. -->
+    <!-- Angular utilise les dimensions connues pour limiter les decalages visuels (CLS). -->
+    <!-- Dans WishFlix, la grille reste stable et lisible meme quand beaucoup d'images arrivent. -->
+    <!-- Pour aller plus loin: https://angular.dev/guide/image-optimization -->
     <img [ngSrc]="game().image" [alt]="game().title" width="300" height="450" loading="lazy" />
   </figure>
   <div class="card-body game-card__body">
@@ -21,8 +23,10 @@
     </p>
 
     <div class="card-actions game-card__actions">
-      <!-- Class binding - Il y a plusieurs façons d'utiliser le class binding -->
-      <!-- https://angular.dev/api/common/NgClass#usage-notes -->
+      <!-- Class binding [class]: applique un style selon l'etat disponible/indisponible. -->
+      <!-- Angular recalcule seulement les classes necessaires, sans logique imperative manuelle. -->
+      <!-- Dans WishFlix, l'utilisateur identifie d'un coup d'oeil les jeux jouables. -->
+      <!-- Pour aller plus loin: https://angular.dev/guide/templates/binding#css-class-and-style-property-bindings -->
       <span
         [class]="{
           'badge-success': game().available,
@@ -30,8 +34,10 @@
         }"
         class="badge"
       >
-        <!-- Control flow @if/@else: affichage conditionnel dans le template -->
-        <!-- https://angular.dev/guide/templates/control-flow -->
+        <!-- Control flow @if/@else: rend un libelle different selon game().available. -->
+        <!-- Le template reste declaratif et la condition est lue directement dans la vue. -->
+        <!-- Dans WishFlix, cela evite une ambiguite UX sur la disponibilite des titres. -->
+        <!-- Pour aller plus loin: https://angular.dev/guide/templates/control-flow -->
         @if (game().available) {
           Disponible
         } @else {
@@ -39,6 +45,10 @@
         }
       </span>
 
+      <!-- Event binding: emet l'id du jeu vers le parent via l'output favorite. -->
+      <!-- L'enfant exprime une intention, puis App decide la mise a jour de la wishlist. -->
+      <!-- Dans WishFlix, ce flux protege la coherence de l'etat global des favoris. -->
+      <!-- Pour aller plus loin: https://angular.dev/guide/components/outputs -->
       <flix-button type="outline" size="sm" (click)="favorite.emit(game().id)">
         {{ wishlistLabel }}
       </flix-button>

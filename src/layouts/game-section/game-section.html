@@ -1,6 +1,10 @@
 <section aria-labelledby="titre-catalogue" class="wishflix-catalogue">
   <div class="wishflix-catalogue__header">
     <h2 id="titre-catalogue" class="wishflix-catalogue__title">{{ title() }}</h2>
+    <!-- Control flow @if: affiche le sous-titre uniquement si le parent fournit une valeur. -->
+    <!-- Angular evite de rendre un paragraphe vide, ce qui garde un DOM plus propre. -->
+    <!-- Dans WishFlix, la section s'adapte a des cas simples ou detailles sans composant duplique. -->
+    <!-- Pour aller plus loin: https://angular.dev/guide/templates/control-flow -->
     @if (subtitle()) {
       <p class="wishflix-catalogue__subtitle">{{ subtitle() }}</p>
     }
@@ -11,10 +15,18 @@
     role="group"
     aria-label="Statistiques catalogue"
   >
+    <!-- Slot [filter]: le parent injecte son controle de filtrage dans une zone dediee. -->
+    <!-- Le layout reste stable, mais le contenu projete peut evoluer selon le besoin metier. -->
+    <!-- Dans WishFlix, on peut remplacer le bouton par un autre composant sans casser la section. -->
+    <!-- Pour aller plus loin: https://angular.dev/guide/components/content-projection -->
     <ng-content select="[filter]" />
 
     <div class="stat">
       <div class="stat-title">
+        <!-- Slot avec fallback: le parent peut surcharger le libelle sinon le texte par defaut reste. -->
+        <!-- Cette strategie augmente la reutilisabilite sans multiplier les variantes de composant. -->
+        <!-- Dans WishFlix, la meme section sert pour differents compteurs avec un minimum de code. -->
+        <!-- Pour aller plus loin: https://angular.dev/guide/components/content-projection -->
         <ng-content select="[stat-game-count-label]">Total de jeux</ng-content>
       </div>
       <div class="stat-value text-primary">
@@ -31,6 +43,10 @@
   </div>
 
   <div class="wishflix-catalogue__grid">
+    <!-- Slot principal: accueille les cartes projetees par le parent. -->
+    <!-- GameSection controle la structure, tandis que App controle les donnees et la liste rendue. -->
+    <!-- Dans WishFlix, ce decoupage facilite l'evolution de la grille sans retoucher le layout. -->
+    <!-- Pour aller plus loin: https://angular.dev/guide/components/content-projection -->
     <ng-content></ng-content>
   </div>
 </section>
